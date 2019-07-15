@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        user-request:
+          destination: user-request
+          producer:
+            required-groups: user-group-request
+        user-response:
+          destination: user-response
+          group: user-group-response
+server:
+  port: 8083

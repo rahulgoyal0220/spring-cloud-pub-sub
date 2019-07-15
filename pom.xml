@@ -19,8 +19,8 @@
 	</properties>
 
 	<modules>
-		<module>subscriber</module>
-		<module>publisher</module>
+		<module>user-subscriber</module>
+		<module>user-publisher</module>
 		<module>aggregator</module>
 		<module>listing-consumer</module>
 	</modules>

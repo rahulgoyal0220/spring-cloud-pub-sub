@@ -1,0 +1,19 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        user-request:
+          destination: user-request
+          group: user-group-request
+        user-response:
+          destination: user-response
+          producer:
+            required-groups: user-group-response
+  data:
+    elasticsearch:
+      rest:
+        uris: http://localhost:9200
+      cluster-nodes: localhost:9300
+      cluster-name: elasticsearch_rahulgoyal
+server:
+  port: 8081
