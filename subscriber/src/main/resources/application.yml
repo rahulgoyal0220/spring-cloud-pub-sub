@@ -9,5 +9,11 @@ spring:
           destination: to-uppercase-reply
           producer:
             required-groups: gateway-to-uppercase-reply
+  data:
+    elasticsearch:
+      rest:
+        uris: http://localhost:9200
+      cluster-nodes: localhost:9300
+      cluster-name: elasticsearch_rahulgoyal
 server:
   port: 8081

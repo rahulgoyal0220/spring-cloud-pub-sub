@@ -1,8 +1,9 @@
-package com.intersect.poc.springcloudpub.model;
+package com.intersect.poc.aggregator.model;
 
 
-
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -20,4 +21,5 @@ public class User implements Serializable {
     private String email;
     private String companyName;
     private String designation;
+    private Listing listing;
 }

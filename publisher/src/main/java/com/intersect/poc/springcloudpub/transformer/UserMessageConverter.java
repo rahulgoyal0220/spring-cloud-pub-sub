@@ -1,4 +1,4 @@
-package com.intersect.poc.springcloudpub;
+package com.intersect.poc.springcloudpub.transformer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intersect.poc.springcloudpub.model.User;

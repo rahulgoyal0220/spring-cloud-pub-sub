@@ -1,0 +1,20 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        to-listing-request:
+          destination: to-listing-request
+          group: stream-to-listing-request
+        to-listing-reply:
+          destination: to-listing-reply
+          group: gateway-to-listing-reply
+          producer:
+            required-groups: gateway-to-listing-reply
+  data:
+    elasticsearch:
+      rest:
+        uris: http://localhost:9200
+      cluster-nodes: localhost:9300
+      cluster-name: elasticsearch_rahulgoyal
+server:
+  port: 9001

@@ -1,6 +1,6 @@
-package com.intersect.poc.springcloudpub;
+package com.intersect.poc.aggregator;
 
-import com.intersect.poc.springcloudpub.model.User;
+import com.intersect.poc.aggregator.model.Listing;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -23,55 +23,56 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@EnableBinding({SpringCloudPubApplication.GatewayChannels.class})
+@EnableBinding({AggregatorApplication.ListingStreamChannel.class})
 @SpringBootApplication
-public class SpringCloudPubApplication {
+public class AggregatorApplication {
 
-	interface GatewayChannels {
+	public static void main(String[] args) {
+		SpringApplication.run(AggregatorApplication.class, args);
+	}
 
-		String TO_UPPERCASE_REPLY = "to-uppercase-reply";
-		String TO_UPPERCASE_REQUEST = "to-uppercase-request";
+	interface ListingStreamChannel {
 
-		@Input(TO_UPPERCASE_REPLY)
-		SubscribableChannel toUppercaseReply();
+		String TO_LISTING_REPLY = "to-listing-reply";
+		String TO_LISTING_REQUEST = "to-listing-request";
 
-		@Output(TO_UPPERCASE_REQUEST)
-		MessageChannel toUppercaseRequest();
+		@Input(TO_LISTING_REPLY)
+		SubscribableChannel toListingReply();
+
+		@Output(TO_LISTING_REQUEST)
+		MessageChannel toListingRequest();
 	}
 
 	@MessagingGateway
-	public interface StreamGateway {
-		@Gateway(requestChannel = ENRICH, replyChannel = GatewayChannels.TO_UPPERCASE_REPLY)
-		User process(String payload);
-	}
-
-	private static final String ENRICH = "enrich";
-
-	public static void main(String[] args) {
-		SpringApplication.run(SpringCloudPubApplication.class, args);
+	public interface ListingGateway {
+		@Gateway(requestChannel = ENRICH, replyChannel = ListingStreamChannel.TO_LISTING_REPLY)
+		Listing process(String payload);
 	}
 
 	@Bean
 	public IntegrationFlow headerEnricherFlow() {
 		return IntegrationFlows.from(ENRICH).enrichHeaders(HeaderEnricherSpec::headerChannelsToString)
-				.channel(GatewayChannels.TO_UPPERCASE_REQUEST).get();
+				.channel(ListingStreamChannel.TO_LISTING_REQUEST).get();
 	}
+
+	private static final String ENRICH = "enrich";
+
 
 	@Bean
 	public IntegrationFlow payLoadData() {
-		return IntegrationFlows.from(GatewayChannels.TO_UPPERCASE_REPLY)
-				.convert(User.class)
-				.channel(GatewayChannels.TO_UPPERCASE_REPLY).get();
+		return IntegrationFlows.from(ListingStreamChannel.TO_LISTING_REPLY)
+				.convert(Listing.class)
+				.channel(ListingStreamChannel.TO_LISTING_REPLY).get();
 	}
 
 	@RestController
-	public class UppercaseController {
+	public class UserListingController {
 		@Autowired
-		StreamGateway gateway;
+		ListingGateway gateway;
 
-		@GetMapping(value = "/user/{userId}")
-		public ResponseEntity<User> getUser(@PathVariable("userId") String string) {
-			log.info("Message being sent from publiosher "+ string);
+		@GetMapping("/userlisting/{id}")
+		public ResponseEntity<Listing> getUser(@PathVariable("id") String string) {
+			log.info("Message being "+ string);
 			return new ResponseEntity<>(gateway.process(string), HttpStatus.OK);
 		}
 	}
