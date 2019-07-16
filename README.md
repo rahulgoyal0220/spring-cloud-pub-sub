@@ -10,10 +10,10 @@ Rename the file to service-account.json and place it in the project resource fol
 2. Setup and Run elasticDB : https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html
 
 3. Clone the git and run the: 
-1. user-publisher
-2. user-subscriber
-3. listing-publisher
-4. listing-subscriber
+  =>user-publisher
+  =>user-subscriber
+  =>listing-publisher
+  =>listing-subscriber
 
 using:= mvn spring-boot:run
 
