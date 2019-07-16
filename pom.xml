@@ -21,8 +21,8 @@
 	<modules>
 		<module>user-subscriber</module>
 		<module>user-publisher</module>
-		<module>aggregator</module>
-		<module>listing-consumer</module>
+		<module>listing-publisher</module>
+		<module>listing-subscriber</module>
 	</modules>
 
 	<build>

@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        listing-request:
+          destination: listing-request
+          producer:
+            required-groups: listing-group-request
+        listing-response:
+          destination: listing-response
+          group: listing-group-response
+
+server:
+  port: 9002
